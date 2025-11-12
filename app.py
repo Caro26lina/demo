@@ -1,28 +1,33 @@
-from flask import Flask
+from flask import Flask, render_template, request
 import pickle
-from sklearn.preprocessing import LabelEncoder
-from sklearn.metrics import accuracy_score
 
 app = Flask(__name__)
 
-
-
-with open("rdcmodel.pkl","rb") as f:
+# Load model
+with open("LR.pkl", "rb") as f:
     model = pickle.load(f)
 
-with open("leencoder.pkl","rb") as f:
+with open("LE.pkl", 'rb') as f:
     le = pickle.load(f)
-
 
 @app.route("/")
 def home():
-    return "Model is Running"
+    return render_template("index.html")
 
-@app.route("/predict",methods=["GET"])
+@app.route("/predict", methods=["POST"])
 def predict():
-    pred = model.predict([[5.1,3.5,1.4]])
-    flower_name = le.inverse_transform(pred)
-    return f"Prediction: {flower_name}"
+    # Get input values from form
+    sepal_length = float(request.form["sepal_length"])
+    sepal_width = float(request.form["sepal_width"])
+    petal_length = float(request.form["petal_length"])
+    petal_width = float(request.form["petal_width"])
+
+    # Predict directly
+    pred = model.predict([[sepal_length, sepal_width, petal_length, petal_width]])
+    pred_class = int(round(pred[0]))  # model already gives the name
+
+    flower_name = le.inverse_transform([pred_class])[0]
+    return render_template("index.html", result=flower_name)
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0",port=5000)
+    app.run(host="0.0.0.0", port=5000)
