@@ -20,7 +20,7 @@ def home():
 
 @app.route("/predict",methods=["GET"])
 def predict():
-    pred = model.predict([[5.1,3.5,1.4,0.2]])
+    pred = model.predict([[5.1,3.5,1.4]])
     flower_name = le.inverse_transform(pred)
     return f"Prediction: {flower_name}"
 
