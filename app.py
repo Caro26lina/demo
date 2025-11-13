@@ -4,7 +4,7 @@ import pickle
 app = Flask(__name__)
 
 # Load model
-with open("LR.pkl", "rb") as f:
+with open("RD.pkl", "rb") as f:
     model = pickle.load(f)
 
 with open("LE.pkl", 'rb') as f:
