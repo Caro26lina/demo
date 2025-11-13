@@ -53,5 +53,5 @@ jobs:
 
       - name: Run Docker container
         run: |
-          docker run -d -p 5000:5000 --name ml-container ml-flask-app
+          docker run -d -p 8080:8080 --name ml-container ml-flask-app
           echo "✅ Flask app container is running inside GitHub Actions (port 5000)"

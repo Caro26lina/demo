@@ -7,10 +7,10 @@ import pickle
 
 df = pd.read_csv('Iris.csv')
 
-x = df.iloc[:,1:-1]
+x = df.iloc[:, 0:-1]
 le = LabelEncoder()
 
-y = le.fit_transform(df.iloc[:,-1])
+y = le.fit_transform(df.iloc[:, -1])
 
 x_train, x_test, y_train, y_test = train_test_split(x,y,test_size=0.25,random_state=11)
 
